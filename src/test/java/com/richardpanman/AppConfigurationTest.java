@@ -19,8 +19,19 @@ public class AppConfigurationTest {
     }
 
     @Test
-    public void invalidTemplateDirectory() {
+    public void nonExistantTemplateDirectory() {
         File templateDirectoryPath = new File("invalid_path_to_directory!!!!");
+        try {
+            new AppConfiguration(templateDirectoryPath);
+            fail("Exception was not raised but one was expected");
+        } catch (Exception e) {
+            return;
+        }
+    }
+
+    @Test
+    public void TemplateDirectoryIsAFile() {
+        File templateDirectoryPath = new File("src/test/resources/templates/dummy_file.txt");
         try {
             new AppConfiguration(templateDirectoryPath);
             fail("Exception was not raised but one was expected");
@@ -36,7 +47,7 @@ public class AppConfigurationTest {
         File templateDirectoryPath = new File("src/test/resources/templates/");
         try {
             AppConfiguration appCfg = new AppConfiguration(templateDirectoryPath);
-            appCfg.addInput("Test key", "Test value");
+            appCfg.setInput("Test key", "Test value");
             assertEquals(expectedResult, appCfg.getInput());
         } catch (Exception e) {
             fail("Exception raised but none expected");
