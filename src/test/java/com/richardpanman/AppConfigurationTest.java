@@ -43,14 +43,39 @@ public class AppConfigurationTest {
     @Test
     public void setAndGetInput() {
         HashMap<String, Object> expectedResult = new HashMap<String, Object>();
-        expectedResult.put("Test key", "Test value");
+        expectedResult.put("Testkey", "Test value");
         File templateDirectoryPath = new File("src/test/resources/templates/");
         try {
             AppConfiguration appCfg = new AppConfiguration(templateDirectoryPath);
-            appCfg.setInput("Test key", "Test value");
+            appCfg.setInput("Testkey", "Test value");
             assertEquals(expectedResult, appCfg.getInput());
         } catch (Exception e) {
             fail("Exception raised but none expected");
+        }
+    }
+
+    @Test
+    public void successfulParse() {
+        File templateDirectoryPath = new File("src/test/resources/templates/");
+        try {
+            AppConfiguration appCfg = new AppConfiguration(templateDirectoryPath);
+            appCfg.setInput("Testkey", "Test value");
+            assertEquals("//Test value//", appCfg.render("test_template.txt"));
+        } catch (Exception e) {
+            fail("Exception raised but none expected");
+        }
+    }
+
+    @Test
+    public void unsuccessfulParse() {
+        File templateDirectoryPath = new File("src/test/resources/templates/");
+        try {
+            AppConfiguration appCfg = new AppConfiguration(templateDirectoryPath);
+            appCfg.setInput("Testkey", "Test value");
+            assertEquals("//Test value//", appCfg.render("!!!Non-existant template!!!"));
+            fail("Exception was not raised when one was expected");
+        } catch (Exception e) {
+            return;
         }
     }
 }
