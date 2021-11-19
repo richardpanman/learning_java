@@ -13,7 +13,7 @@ public class App {
         try {
             new AppConfiguration(templateDirectoryPath);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.toString());
+            LOGGER.log(Level.SEVERE, "Exception when trying to create AppConfiguration: " + e.toString());
         }
     }
 }

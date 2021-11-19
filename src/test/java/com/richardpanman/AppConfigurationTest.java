@@ -1,7 +1,10 @@
 package com.richardpanman;
 
 import org.junit.Test;
+import java.util.HashMap;
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class AppConfigurationTest {
@@ -23,6 +26,20 @@ public class AppConfigurationTest {
             fail("Exception was not raised but one was expected");
         } catch (Exception e) {
             return;
+        }
+    }
+
+    @Test
+    public void setAndGetInput() {
+        HashMap<String, Object> expectedResult = new HashMap<String, Object>();
+        expectedResult.put("Test key", "Test value");
+        File templateDirectoryPath = new File("src/test/resources/templates/");
+        try {
+            AppConfiguration appCfg = new AppConfiguration(templateDirectoryPath);
+            appCfg.addInput("Test key", "Test value");
+            assertEquals(expectedResult, appCfg.getInput());
+        } catch (Exception e) {
+            fail("Exception raised but none expected");
         }
     }
 }
